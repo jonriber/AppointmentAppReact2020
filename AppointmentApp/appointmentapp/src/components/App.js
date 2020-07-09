@@ -12,11 +12,18 @@ class App extends Component {
     super();
     this.state = {
       myAppointments: [],
+      formDisplay:false,
       lastIndex : 0 //creating an index as state for each appoinment
-    }
-    this.deleteAppointment = this.deleteAppointment.bind(this); // binding deleteAppointment so we can use this inside the method, referring to the method itself
-  }
+    };
+    this.deleteAppointment = this.deleteAppointment.bind(this);// binding deleteAppointment so we can use this inside the method, referring to the method itself
+    this.toggleForm = this.toggleForm.bind(this); //another binding for method
+  };
 
+  toggleForm() {
+    this.setState(
+      { formDisplay: !this.state.formDisplay }
+    )
+  };
   //created this method to delete something from the array
   //it gets a appointment as an argument (itemId)
   deleteAppointment(apt) {
@@ -57,7 +64,7 @@ class App extends Component {
           <div className="row">
             <div className="col-md-12 bg-white">
               <div className="container">
-                <AddAppointments />
+                <AddAppointments formDisplay = {this.state.formDisplay} toggleForm={this.toggleForm}/>
                 <SearchAppointments />
                 <ListAppointments appointments={this.state.myAppointments}
                 deleteAppointment={this.deleteAppointment}/>
