@@ -4,6 +4,8 @@ import AddAppointments from './AddAppointments';
 import SearchAppointments from './SearchAppointments';
 import ListAppointments from './ListAppointments';
 
+import {without} from 'lodash';
+
 //we can only return a single html element, thats why we wrap it in a div element
 class App extends Component {
   constructor() {
@@ -12,8 +14,20 @@ class App extends Component {
       myAppointments: [],
       lastIndex : 0 //creating an index as state for each appoinment
     }
+    this.deleteAppointment = this.deleteAppointment.bind(this); // binding deleteAppointment so we can use this inside the method, referring to the method itself
   }
 
+  //created this method to delete something from the array
+  //it gets a appointment as an argument (itemId)
+  deleteAppointment(apt) {
+    let tempApts = this.state.myAppointments;
+    tempApts = without(tempApts,apt); //updating tempApts using without method
+
+    //now setting a new state with the updated version of tempApts =)
+    this.setState({
+      myAppointments:tempApts
+    });
+  }
   componentDidMount() {
     fetch('./data.json') //get data from somewhere
       .then(response => response.json()) //transform this response in json file
@@ -23,7 +37,7 @@ class App extends Component {
             this.setState({lastIndex:this.state.lastIndex+1}); //setState to change the state as we go through the array of objects
             return item;
           })
-          this.setState(
+          this.setState( //we have to use setState because we can´t assign a value directly to state as a usual variable
           { myAppointments: apts }
         )
         });
@@ -45,7 +59,8 @@ class App extends Component {
               <div className="container">
                 <AddAppointments />
                 <SearchAppointments />
-                <ListAppointments appointments={this.state.myAppointments}/>
+                <ListAppointments appointments={this.state.myAppointments}
+                deleteAppointment={this.deleteAppointment}/>
               </div>
             </div>
           </div>
