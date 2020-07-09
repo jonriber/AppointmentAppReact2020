@@ -17,6 +17,17 @@ class App extends Component {
     };
     this.deleteAppointment = this.deleteAppointment.bind(this);// binding deleteAppointment so we can use this inside the method, referring to the method itself
     this.toggleForm = this.toggleForm.bind(this); //another binding for method
+    this.addAppointment = this.addAppointment.bind(this);
+  };
+
+  addAppointment(apt) {
+    let tempApts = this.state.myAppointments;
+    apt.aptId = this.state.lastIndex;
+    tempApts.unshift(apt);
+    this.setState({
+      myAppointments: tempApts,
+      lastIndex:this.state.lastIndex +1,
+    });
   };
 
   toggleForm() {
@@ -64,10 +75,11 @@ class App extends Component {
           <div className="row">
             <div className="col-md-12 bg-white">
               <div className="container">
-                <AddAppointments formDisplay = {this.state.formDisplay} toggleForm={this.toggleForm}/>
+                <AddAppointments formDisplay = {this.state.formDisplay} toggleForm={this.toggleForm} addAppointment={this.addAppointment}/>
                 <SearchAppointments />
                 <ListAppointments appointments={this.state.myAppointments}
-                deleteAppointment={this.deleteAppointment}/>
+                deleteAppointment={this.deleteAppointment}
+                />
               </div>
             </div>
           </div>
