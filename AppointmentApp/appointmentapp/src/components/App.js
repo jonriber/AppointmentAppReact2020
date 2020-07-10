@@ -142,7 +142,7 @@ class App extends Component {
                 searchApts = {this.searchApts}/>
                 <ListAppointments appointments={filteredApts}
                 deleteAppointment={this.deleteAppointment}
-                updateInfo = {this.updateInfo()}
+                updateInfo = {this.updateInfo}
                 />
               </div>
             </div>
